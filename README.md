@@ -28,6 +28,7 @@ thanks to[퇴근후딴짓](https://github.com/lovedlim/BigDataCertificationCours
   1. 유형별 갯수/총합 계산 (`groupby`) 및 순위 데이터 출력
   2. 결측치 평균 대체 / 결측 데이터 drop
   3. 평균값 기반 필터링 등 조건 처리
+  4. 문자열 처리(ex 2024.6.12 포맷의 날짜를 연+월 데이터로 추출)
 
 **예시 코드**
 ```python
@@ -35,7 +36,11 @@ total = df.groupby(df["유형"])["정답"].count()
 right = df[df["정답"] == 1].groupby(df["유형"])["정답"].count()
 result = right / total
 result.sort_values()
-print(result.iloc[len(result)-1]
+print(result.iloc[len(result)-1])
+
+df["year_month"] = df["date"].str.split(".").str[:2].str.join("_")
+result = df.groupby(df["year_month"])["price"].sum().sort_values()
+print(result.iloc[len(result)-1])
 ```
 ## 유형 2: 회귀
  - **풀이 흐름**
